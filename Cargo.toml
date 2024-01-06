@@ -1,0 +1,17 @@
+[package]
+name = "bevy_video_glitch"
+description = "A video glitch effect for bevy"
+version = "0.1.1"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/shanecelis/bevy_video_glitch"
+authors = ["Shane Celis"]
+keywords = ["gamedev", "bevy", "shaders", "graphics"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bevy = "0.12.1"
+
+[badges.maintenance]
+status = "actively-developed"
