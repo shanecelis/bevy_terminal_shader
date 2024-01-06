@@ -1,10 +1,10 @@
 [package]
-name = "bevy_video_glitch"
-description = "A video glitch effect for bevy"
-version = "0.1.1"
+name = "bevy_terminal_shader"
+description = ""
+version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/shanecelis/bevy_video_glitch"
+repository = "https://github.com/shanecelis/bevy_terminal_shader"
 authors = ["Shane Celis"]
 keywords = ["gamedev", "bevy", "shaders", "graphics"]
 
