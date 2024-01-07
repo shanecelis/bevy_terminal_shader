@@ -1,10 +1,21 @@
-
 #import bevy_pbr::{
-    mesh_view_bindings::globals,
-    mesh_view_bindings::view,
+    // mesh_view_bindings::globals,
+    // mesh_view_bindings::view,
     forward_io::VertexOutput,
     utils::PI,
 }
+
+#import bevy_render::{
+    view::View,
+    globals::Globals,
+}
+
+#ifdef IS_2D
+@group(0) @binding(1) var<uniform> globals: Globals; // Works on 2d.
+#else
+@group(0) @binding(9) var<uniform> globals: Globals; // Works on 3d.
+#endif
+// @group(0) @binding(2) var<uniform> view: View;
 // #import bevy_render::globals::Globals
 // #import bevy_pbr::forward_io::VertexOutput
 // #import "shaders/custom_material_import.wgsl"::COLOR_MULTIPLIER
@@ -141,10 +152,10 @@ fn effect(p: vec2<f32>, pp: vec2<f32>, time: f32, resolution: vec2<f32>) -> vec3
 // }
 
 @fragment
-fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
-    let q: vec2<f32> = mesh.uv;
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
+    let q: vec2<f32> = in.uv;
     var p: vec2<f32> = -1.0 + 2.0 * q;
-    let resolution: vec2<f32> = view.viewport.zw;
+    let resolution: vec2<f32> = vec2<f32>(360.0,640.0);//view.viewport.zw;
 
     let pp: vec2<f32> = p;
     p.x = p.x * resolution.x / resolution.y;

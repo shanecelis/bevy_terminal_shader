@@ -1,8 +1,9 @@
 #![doc(html_root_url = "https://docs.rs/bevy_terminal_shader/0.1.0")]
 #![doc = include_str!("../README.md")]
 use bevy::{
-    sprite::Material2d,
-    render::render_resource::{AsBindGroup, ShaderRef},
+    utils::Hashed,
+    sprite::{Material2d, Material2dPlugin, Material2dKey},
+    render::render_resource::{AsBindGroup, ShaderRef, SpecializedMeshPipelineError},
     asset::load_internal_asset,
     core_pipeline::{core_3d, fullscreen_vertex_shader::fullscreen_shader_vertex_state},
     ecs::query::QueryItem,
@@ -26,6 +27,7 @@ use bevy::{
         renderer::{RenderContext, RenderDevice},
         texture::BevyDefault,
         view::ViewTarget,
+        mesh::InnerMeshVertexBufferLayout,
         RenderApp,
     },
 };
@@ -44,7 +46,8 @@ impl Plugin for TerminalShaderPlugin {
             "../assets/shaders/terminal.wgsl",
             Shader::from_wgsl
         );
-        app.add_plugins(MaterialPlugin::<TerminalMaterial>::default());
+        app.add_plugins((MaterialPlugin::<TerminalMaterial>::default(),
+                         Material2dPlugin::<TerminalMaterial>::default()));
     }
 }
 
@@ -65,6 +68,17 @@ impl Material for TerminalMaterial {
 impl Material2d for TerminalMaterial {
     fn fragment_shader() -> ShaderRef {
         TERMINAL_SHADER_HANDLE.into()
+    }
+    fn specialize(
+        descriptor: &mut RenderPipelineDescriptor,
+        _layout: &Hashed<InnerMeshVertexBufferLayout>,
+        key: Material2dKey<Self>,
+    ) -> Result<(), SpecializedMeshPipelineError> {
+        // if key.bind_group_data.is_red {
+        let fragment = descriptor.fragment.as_mut().unwrap();
+        fragment.shader_defs.push("IS_2D".into());
+        // }
+        Ok(())
     }
 }
 
