@@ -11,9 +11,9 @@
 // CC0: Another windows terminal shader
 //  Created this based on an old shader as a background in windows terminal
 
-// [[block]] struct Constants {
-//     time: f32;
-//     resolution: vec2<f32>;
+// struct TerminalMaterial {
+//     foreground: vec4<f32>,
+//     background: vec4<f32>
 // };
 
 // [[block]] struct VertexInput {
@@ -28,7 +28,9 @@
 // [[group(0), binding(1)]] var<uniform> vertexInput: VertexInput;
 // [[group(0), binding(2)]] var<out> fragmentOutput: FragmentOutput;
 
-// @group(0) @binding(0) var<uniform> globals: Globals;
+@group(1) @binding(0) var<uniform> foreground: vec4<f32>;
+@group(1) @binding(1) var<uniform> background: vec4<f32>;
+// @group(0) @binding(0) var<uniform> material: TerminalMaterial;
 
 // var<workgroup> g_rot0: mat2x2<f32> = mat2x2<f32>(1.0, 0.0, 0.0, 1.0);
 // var<workgroup> g_rot1: mat2x2<f32> = mat2x2<f32>(1.0, 0.0, 0.0, 1.0);
@@ -44,9 +46,9 @@ fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
 
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
 //  Macro version of above to enable compile-time globals
-fn HSV2RGB(c: vec3<f32>) -> vec3<f32> {
-    return c.z * mix(hsv2rgb_K.xxx, saturate(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx), c.y);
-}
+// fn HSV2RGB(c: vec3<f32>) -> vec3<f32> {
+//     return c.z * mix(hsv2rgb_K.xxx, saturate(abs(fract(c.xxx + hsv2rgb_K.xyz) * 6.0 - hsv2rgb_K.www) - hsv2rgb_K.xxx), c.y);
+// }
 
 // var<workgroup> rot0: mat2x2<f32> = mat2x2<f32>((1.0), (0.0), -0.0, (1.0));
 //var<workgroup> rot1: mat2x2<f32> = mat2x2<f32>((1.0), (0.0), -0.0, (1.0));
@@ -117,11 +119,17 @@ fn effect(p: vec2<f32>, pp: vec2<f32>, time: f32, resolution: vec2<f32>) -> vec3
     let aa: f32 = 2.0 / resolution.y;
 
     let d: f32 = df(p, time, g_rot0, g_rot1);
-    let bcol0: vec3<f32> = HSV2RGB(vec3<f32>(0.55, 0.85, 0.85));
-    let bcol1: vec3<f32> = HSV2RGB(vec3<f32>(0.33, 0.85, 0.025));
-    var col: vec3<f32> = 0.1 * bcol0;
-    col += bcol1 / sqrt(abs(d));
-    col += bcol0 * smoothstep(aa, -aa, (d - 0.001));
+    var bg: vec3<f32> = hsv2rgb(vec3<f32>(0.55, 0.85, 0.85));
+    var fg: vec3<f32> = hsv2rgb(vec3<f32>(0.33, 0.85, 0.025));
+    // if (1 > 0) {
+    //     return vec3<f32>(0.1,0.2,0.3);
+    //     // return abs(bg - background.rgb);
+    // }
+    bg = background.rgb;
+    fg = foreground.rgb;
+    var col: vec3<f32> = 0.1 * bg.rgb;
+    col += fg.rgb / sqrt(abs(d));
+    col += bg.rgb * smoothstep(aa, -aa, (d - 0.001));
 
     col *= smoothstep(1.5, 0.5, length(pp));
 
