@@ -96,22 +96,27 @@ impl TerminalMaterial {
     pub fn green() -> Self {
         Self {
             foreground:
-            // Color::hsl(0.33, 0.85, 0.025).as_rgba(),
-            // Color::hsl(118.8, 0.74, 0.015).as_rgba(),
-            // Color::hsl(118.8, 0.85, 0.025).as_rgba(),
-            // Color::hsl(118.8, 0.50, 0.025).as_rgba(),
-            // Color::hsl(101.0, 1.0, 0.012).as_rgba(),
-            // Color::rgba(0.0042, 0.0238, 0.0150, 1.0),
-            // Color::rgba_linear(0.0042, 0.0238, 0.004, 1.0).into(),
-            // Color::rgba_linear(0.0042, 0.0238, 0.0150, 1.0).as_rgba(),
-            Color::hsl(118.882, 0.535, 0.109).as_rgba(),
+            // Color::hsl(0.33, 0.85, 0.025).as_rgba(),                   // HSL value as given in the original shader.
+            // Color::hsl(118.8, 0.74, 0.015).as_rgba(),                  // Web, convert HSL to RGB. Nope.
+            // Color::hsl(118.8, 0.85, 0.025).as_rgba(),                  // Siri, convert.... Nah uh.
+            // Color::hsl(118.8, 0.50, 0.025).as_rgba(),                  // ChatGPT, convert.... Still no.
+            // Color::hsl(101.0, 1.0, 0.012).as_rgba(),                   // Not even close.
+            // Color::rgba(0.0042, 0.0238, 0.0150, 1.0),                  // I feel like I'm taking crazy pills!
+            // Color::rgba_linear(0.0042, 0.0238, 0.004, 1.0),            // Do not talk to me or my son ever again!
+            //
+            // Eval shader's code: hsl2rgb(vec(0.33, 0.85, 0.025)) -> vec(0.0042, 0.0238, 0.0150)
+            //
+            // Color::rgba(0.0042, 0.0238, 0.0150, 1.0),                  // No? THIS IS THE RGB VALUE THE SHADER USES!
+            // Color::rgba_linear(0.0042, 0.0238, 0.0150, 1.0).as_rgba(), // Oh, ok. It's linear in the shader.
+            Color::hsl(118.882, 0.535, 0.109).as_rgba(),                  // Let's go back to use the correct HSL value.
 
             background:
-            // Color::hsl(0.55, 0.85, 0.85).as_rgba(),
+            // Color::hsl(0.55, 0.85, 0.85).as_rgba(), // as given in the original
             // Color::hsl(198.0, 0.74, 0.49).as_rgba(),
             // Color::hsl(198.0, 0.85, 0.85).as_rgba(),
             // Color::rgba(0.1275, 0.8075, 0.765, 1.0),
             // Color::rgba_linear(0.122, 0.631, 0.851, 1.0).into(),
+            // Color::rgba(0.1275, 0.8075, 0.765, 1.0).as_rgba(),
             // Color::rgba_linear(0.1275, 0.8075, 0.765, 1.0).as_rgba(),
             Color::hsl(192.671, 0.800, 0.658).as_rgba(),
         }
