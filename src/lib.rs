@@ -53,6 +53,7 @@ impl Material2d for TerminalMaterial {
     fn fragment_shader() -> ShaderRef {
         TERMINAL_SHADER_HANDLE.into()
     }
+
     fn specialize(
         descriptor: &mut RenderPipelineDescriptor,
         _layout: &Hashed<InnerMeshVertexBufferLayout>,
@@ -84,11 +85,12 @@ pub struct TerminalMaterial {
 impl TerminalMaterial {
     /// Standardize the luminance for the foreground and background to the same
     /// luminance values used in [green()][].
-    pub fn standardize(&mut self) {
+    pub fn standardize(mut self) -> Self {
         self.foreground.set_l(0.109);
         self.background.set_l(0.658);
         self.foreground = self.foreground.as_rgba();
         self.background = self.background.as_rgba();
+        self
     }
 
     pub fn green() -> Self {
@@ -124,12 +126,10 @@ impl TerminalMaterial {
 
 impl Default for TerminalMaterial {
     fn default() -> Self {
-        let mut result = Self {
+        Self {
             foreground: Color::WHITE,
             background: Color::BLACK,
-        };
-        result.standardize();
-        result
+        }.standardize()
     }
 }
 
@@ -158,32 +158,3 @@ mod tests {
         );
     }
 }
-// This is the component that will get passed to the shader
-// #[derive(Component, Clone, Copy, ExtractComponent, ShaderType)]
-// pub struct TerminalShaderSettings {
-//     /// Set the intensity of this glitch effect from [0, 1]. By default it has a
-//     /// value of 1.
-//     pub intensity: f32,
-//     /// This shader uses a color aberration matrix C in the following way: The
-//     /// first column `C[0] . color` selects the primary color, which is used to
-//     /// mix the other two. In practice this means one will not see the primary
-//     /// color in the color aberrations but will instead see traces of the
-//     /// secondary colors: `C[1] . color` and `C[2] . color`.
-//     ///
-//     /// The default value is an identity matrix, which specifies red as the
-//     /// primary color. Typically this matrix will be a doubly stochastic matrix
-//     /// meaning the columns and rows each sum to 1.
-//     pub color_aberration: Mat3,
-//     // WebGL2 structs must be 16 byte aligned.
-//     #[cfg(feature = "webgl2")]
-//     webgl2_padding: Vec2,
-// }
-
-// impl Default for TerminalShaderSettings {
-//     fn default() -> Self {
-//         Self {
-//             intensity: 1.0,
-//             color_aberration: Mat3::IDENTITY,
-//         }
-//     }
-// }
