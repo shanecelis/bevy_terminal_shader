@@ -28,10 +28,9 @@ fn setup(
         transform: Transform::from_xyz(0.0, 0.5, 0.0),
         material: materials.add(
             // TerminalMaterial::default()
-            TerminalMaterial::green()
-            // color: Color::BLUE,
-            // color_texture: Some(asset_server.load("branding/icon.png")),
-            // alpha_mode: AlphaMode::Blend,
+            TerminalMaterial::green(), // color: Color::BLUE,
+                                       // color_texture: Some(asset_server.load("branding/icon.png")),
+                                       // alpha_mode: AlphaMode::Blend,
         ),
         ..default()
     });
@@ -42,4 +41,3 @@ fn setup(
         ..default()
     });
 }
-

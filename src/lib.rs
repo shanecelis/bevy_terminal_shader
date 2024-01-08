@@ -1,18 +1,17 @@
 #![doc(html_root_url = "https://docs.rs/bevy_terminal_shader/0.1.0")]
 #![doc = include_str!("../README.md")]
 use bevy::{
-    utils::Hashed,
-    sprite::{Material2d, Material2dPlugin, Material2dKey},
-    render::render_resource::{AsBindGroup, ShaderRef, SpecializedMeshPipelineError},
     asset::load_internal_asset,
     core_pipeline::{core_3d, fullscreen_vertex_shader::fullscreen_shader_vertex_state},
     ecs::query::QueryItem,
     prelude::*,
+    render::render_resource::{AsBindGroup, ShaderRef, SpecializedMeshPipelineError},
     render::{
         extract_component::{
             ComponentUniforms, ExtractComponent, ExtractComponentPlugin, UniformComponentPlugin,
         },
         globals::{GlobalsBuffer, GlobalsUniform},
+        mesh::InnerMeshVertexBufferLayout,
         render_graph::{
             NodeRunError, RenderGraphApp, RenderGraphContext, ViewNode, ViewNodeRunner,
         },
@@ -21,15 +20,16 @@ use bevy::{
             BindingType, CachedRenderPipelineId, ColorTargetState, ColorWrites, FragmentState,
             MultisampleState, Operations, PipelineCache, PrimitiveState, RenderPassColorAttachment,
             RenderPassDescriptor, RenderPipelineDescriptor, Sampler, SamplerBindingType,
-            SamplerDescriptor, ShaderStages, ShaderType, TextureFormat, TextureSampleType,
-            TextureViewDimension, Shader,
+            SamplerDescriptor, Shader, ShaderStages, ShaderType, TextureFormat, TextureSampleType,
+            TextureViewDimension,
         },
         renderer::{RenderContext, RenderDevice},
         texture::BevyDefault,
         view::ViewTarget,
-        mesh::InnerMeshVertexBufferLayout,
         RenderApp,
     },
+    sprite::{Material2d, Material2dKey, Material2dPlugin},
+    utils::Hashed,
 };
 
 // $ cargo install uuid-tools && uuid -o simple
@@ -46,8 +46,10 @@ impl Plugin for TerminalShaderPlugin {
             "../assets/shaders/terminal.wgsl",
             Shader::from_wgsl
         );
-        app.add_plugins((MaterialPlugin::<TerminalMaterial>::default(),
-                         Material2dPlugin::<TerminalMaterial>::default()));
+        app.add_plugins((
+            MaterialPlugin::<TerminalMaterial>::default(),
+            Material2dPlugin::<TerminalMaterial>::default(),
+        ));
     }
 }
 
@@ -146,23 +148,28 @@ mod tests {
     fn test_fg_to_hsl() {
         let x = Color::rgba_linear(0.0042, 0.0238, 0.004, 1.0);
         let y = x.as_hsla();
-        assert_eq!(&format!("{:?}", y), "Hsla { hue: 118.882225, saturation: 0.5346773, lightness: 0.108975366, alpha: 1.0 }");
+        assert_eq!(
+            &format!("{:?}", y),
+            "Hsla { hue: 118.882225, saturation: 0.5346773, lightness: 0.108975366, alpha: 1.0 }"
+        );
     }
 
     #[test]
     fn test_bg_to_hsl() {
         let x = Color::rgba_linear(0.122, 0.631, 0.851, 1.0);
         let y = x.as_hsla();
-        assert_eq!(&format!("{:?}", y), "Hsla { hue: 192.67107, saturation: 0.79958016, lightness: 0.6577566, alpha: 1.0 }");
+        assert_eq!(
+            &format!("{:?}", y),
+            "Hsla { hue: 192.67107, saturation: 0.79958016, lightness: 0.6577566, alpha: 1.0 }"
+        );
     }
-
 }
 
 impl Default for TerminalMaterial {
     fn default() -> Self {
         let mut result = Self {
             foreground: Color::WHITE,
-            background: Color::BLACK
+            background: Color::BLACK,
         };
         result.standardize();
         result
