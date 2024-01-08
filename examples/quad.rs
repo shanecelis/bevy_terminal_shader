@@ -14,7 +14,7 @@ fn setup(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<TerminalMaterial>>,
-    mut cmaterials: ResMut<Assets<ColorMaterial>>,
+    _cmaterials: ResMut<Assets<ColorMaterial>>,
 ) {
     commands.spawn(Camera2dBundle::default());
 

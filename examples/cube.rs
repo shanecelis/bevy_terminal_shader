@@ -2,8 +2,6 @@
 
 use bevy::{
     prelude::*,
-    reflect::TypePath,
-    render::render_resource::{AsBindGroup, ShaderRef},
 };
 
 use bevy_terminal_shader::{TerminalMaterial, TerminalShaderPlugin};

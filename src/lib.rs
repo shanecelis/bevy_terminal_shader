@@ -2,31 +2,13 @@
 #![doc = include_str!("../README.md")]
 use bevy::{
     asset::load_internal_asset,
-    core_pipeline::{core_3d, fullscreen_vertex_shader::fullscreen_shader_vertex_state},
-    ecs::query::QueryItem,
     prelude::*,
     render::render_resource::{AsBindGroup, ShaderRef, SpecializedMeshPipelineError},
     render::{
-        extract_component::{
-            ComponentUniforms, ExtractComponent, ExtractComponentPlugin, UniformComponentPlugin,
-        },
-        globals::{GlobalsBuffer, GlobalsUniform},
         mesh::InnerMeshVertexBufferLayout,
-        render_graph::{
-            NodeRunError, RenderGraphApp, RenderGraphContext, ViewNode, ViewNodeRunner,
-        },
         render_resource::{
-            BindGroupEntries, BindGroupLayout, BindGroupLayoutDescriptor, BindGroupLayoutEntry,
-            BindingType, CachedRenderPipelineId, ColorTargetState, ColorWrites, FragmentState,
-            MultisampleState, Operations, PipelineCache, PrimitiveState, RenderPassColorAttachment,
-            RenderPassDescriptor, RenderPipelineDescriptor, Sampler, SamplerBindingType,
-            SamplerDescriptor, Shader, ShaderStages, ShaderType, TextureFormat, TextureSampleType,
-            TextureViewDimension,
+            RenderPipelineDescriptor, Shader,
         },
-        renderer::{RenderContext, RenderDevice},
-        texture::BevyDefault,
-        view::ViewTarget,
-        RenderApp,
     },
     sprite::{Material2d, Material2dKey, Material2dPlugin},
     utils::Hashed,
@@ -74,7 +56,7 @@ impl Material2d for TerminalMaterial {
     fn specialize(
         descriptor: &mut RenderPipelineDescriptor,
         _layout: &Hashed<InnerMeshVertexBufferLayout>,
-        key: Material2dKey<Self>,
+        _key: Material2dKey<Self>,
     ) -> Result<(), SpecializedMeshPipelineError> {
         // if key.bind_group_data.is_red {
         let fragment = descriptor.fragment.as_mut().unwrap();
@@ -139,6 +121,18 @@ impl TerminalMaterial {
     }
 }
 
+
+impl Default for TerminalMaterial {
+    fn default() -> Self {
+        let mut result = Self {
+            foreground: Color::WHITE,
+            background: Color::BLACK,
+        };
+        result.standardize();
+        result
+    }
+}
+
 #[cfg(test)]
 mod tests {
     // Note this useful idiom: importing names from outer (for mod tests) scope.
@@ -164,18 +158,6 @@ mod tests {
         );
     }
 }
-
-impl Default for TerminalMaterial {
-    fn default() -> Self {
-        let mut result = Self {
-            foreground: Color::WHITE,
-            background: Color::BLACK,
-        };
-        result.standardize();
-        result
-    }
-}
-
 // This is the component that will get passed to the shader
 // #[derive(Component, Clone, Copy, ExtractComponent, ShaderType)]
 // pub struct TerminalShaderSettings {
