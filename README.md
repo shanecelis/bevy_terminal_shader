@@ -7,7 +7,7 @@
 This crate provides a old school terminal-like effect that can be applied to 2D
 and 3D objects on the [bevy game engine](https://bevyengine.org).
 
-![Terminal shader example](https://github.com/shanecelis/bevy_terminal_shader/assets/54390/95100192-b1eb-4797-bce7-0c71b4f842f4)
+![Terminal shader example](https://github.com/shanecelis/bevy_terminal_shader/assets/54390/05308e0a-439f-4ae8-9aa2-07144222aa3e)
 
 # Install
 
