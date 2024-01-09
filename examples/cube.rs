@@ -1,8 +1,6 @@
-//! A shader and a material that uses it.
+//! Shows the terminal material rendered on a cube.
 
-use bevy::{
-    prelude::*,
-};
+use bevy::prelude::*;
 
 use bevy_terminal_shader::{TerminalMaterial, TerminalShaderPlugin};
 
@@ -13,12 +11,11 @@ fn main() {
         .run();
 }
 
-/// set up a simple 3D scene
+/// Set up a simple 3D scene.
 fn setup(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<TerminalMaterial>>,
-    _asset_server: Res<AssetServer>,
 ) {
     // cube
     commands.spawn(MaterialMeshBundle {
@@ -26,9 +23,7 @@ fn setup(
         transform: Transform::from_xyz(0.0, 0.5, 0.0),
         material: materials.add(
             // TerminalMaterial::default()
-            TerminalMaterial::green(), // color: Color::BLUE,
-                                       // color_texture: Some(asset_server.load("branding/icon.png")),
-                                       // alpha_mode: AlphaMode::Blend,
+            TerminalMaterial::green(),
         ),
         ..default()
     });
