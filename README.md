@@ -1,17 +1,18 @@
-# bevy_video_glitch
+# bevy_terminal_shader
 ![Maintenance](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
-[![CI](https://github.com/shanecelis/bevy_video_glitch/actions/workflows/rust.yml/badge.svg)](https://github.com/shanecelis/bevy_video_glitch/actions)
-  [![crates-io](https://img.shields.io/crates/v/bevy_video_glitch.svg)](https://crates.io/crates/bevy_video_glitch)
-  [![api-docs](https://docs.rs/bevy_video_glitch/badge.svg)](https://docs.rs/bevy_video_glitch)
+[![CI](https://github.com/shanecelis/bevy_terminal_shader/actions/workflows/rust.yml/badge.svg)](https://github.com/shanecelis/bevy_terminal_shader/actions)
+  [![crates-io](https://img.shields.io/crates/v/bevy_terminal_shader.svg)](https://crates.io/crates/bevy_terminal_shader)
+  [![api-docs](https://docs.rs/bevy_terminal_shader/badge.svg)](https://docs.rs/bevy_terminal_shader)
 
-This crate provides a post processing video glitch effect for the [bevy game engine](https://bevyengine.org). 
+This crate provides a old school terminal-like effect that can be applied to 2D
+and 3D objects on the [bevy game engine](https://bevyengine.org).
 
-![Cube example](https://github.com/shanecelis/bevy_video_glitch/assets/54390/95100192-b1eb-4797-bce7-0c71b4f842f4)
+![Terminal shader example](https://github.com/shanecelis/bevy_terminal_shader/assets/54390/95100192-b1eb-4797-bce7-0c71b4f842f4)
 
 # Install
 
 ``` sh
-cargo add bevy_video_glitch
+cargo add bevy_terminal_shader
 ```
 
 # Usage
@@ -21,7 +22,7 @@ cargo add bevy_video_glitch
 use bevy::prelude::*;
 fn main() {
     App::new()
-        .add_plugins(bevy_video_glitch::VideoGlitchPlugin)
+        .add_plugins(bevy_terminal_shader::TerminalShaderPlugin)
         .run()
 }
 ```
@@ -30,26 +31,37 @@ fn main() {
 
 ```compile
 use bevy::prelude::*;
-fn setup(mut commands: Commands) {
-    commands.spawn((
-        Camera3dBundle::default(),
-        // This component is also used to determine on which camera to run the post processing effect.
-        bevy_video_glitch::VideoGlitchSettings {
-            intensity: 1.0,
-            color_aberration: Mat3::IDENTITY
-        },
-    ));
+
+fn setup(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<TerminalMaterial>>) {
+    commands.spawn(Camera2dBundle::default());
+    
+    commands.spawn(MaterialMesh2dBundle {
+        mesh: meshes
+            .add(shape::Quad::new(Vec2::new(1300., 800.)).into())
+            .into(),
+        material: materials.add(TerminalMaterial::green()),
+        ..default()
+    });
 ```
 
 # Example
 
-Run the example like so:
+Run the "quad" example like so:
+
+``` sh
+cargo run --example quad
+```
+
+This will show a large quad like the one shown at the beginning of this README.
 
 ``` sh
 cargo run --example cube
 ```
 
-This will show a rotating cube like the one shown at the beginning of this README.
+This will show a rotating cube with the shader as its surfaces.
 
 # License
 
@@ -57,6 +69,6 @@ This crate is licensed under the MIT License or the Apache License 2.0.
 
 # Acknowlegments
 
-* [Video Glitch](https://www.shadertoy.com/view/XtK3W3) by [dyvoid](https://www.shadertoy.com/user/dyvoid).
+* [Terminal Shader](https://www.shadertoy.com/view/DdSGzy) by [mrange](https://www.shadertoy.com/user/mrange).
 
-* [Post Processing](https://github.com/bevyengine/bevy/blob/v0.12.1/examples/shader/post_processing.rs) example from [bevy](https://bevyengine.org), which I wrote a series of toots about [here](https://mastodon.gamedev.place/@shanecelis/111583689226043395).
+* [The sRGB Learning Curve](https://medium.com/@tomforsyth/the-srgb-learning-curve-773b7f68cf7a) by [Tom Forsyth](https://mastodon.gamedev.place/@TomF).

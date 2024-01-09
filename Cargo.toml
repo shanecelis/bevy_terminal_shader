@@ -1,6 +1,6 @@
 [package]
 name = "bevy_terminal_shader"
-description = ""
+description = "An old school terminal shader for the bevy game engine"
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
