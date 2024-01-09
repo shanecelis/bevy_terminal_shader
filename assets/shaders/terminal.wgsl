@@ -1,5 +1,5 @@
-// CC0: Another windows terminal shader
-//  Created this based on an old shader as a background in windows terminal
+// CC0: Another windows terminal shader by
+// Created this based on an old shader as a background in windows terminal.
 #import bevy_render::{
     view::View,
     globals::Globals,
@@ -9,7 +9,7 @@
     forward_io::VertexOutput,
     utils::PI,
 }
-// #import bevy_core_pipeline::tonemapping::tone_mapping
+#import bevy_core_pipeline::tonemapping::tone_mapping
 
 @group(0) @binding(0) var<uniform> view: View;
 #ifdef IS_2D
@@ -120,13 +120,14 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let pp: vec2<f32> = p;
     p.x = p.x * resolution.x / resolution.y;
     var col: vec3<f32> = effect(p, pp, globals.time, resolution);
+    // var col: vec3<f32> = effect(p, pp, 4.2, resolution);
     col = aces_approx(col);
     col = sqrt(col);
     // col = vec3<f32>(0.1, 0.2, 0.3);
     let c = to_linear(vec4<f32>(col.rgb, 1.));
-// #ifdef TONEMAP_IN_SHADER
-//     return tone_mapping(c);
-// #else
+#ifdef TONEMAP_IN_SHADER
+    return tone_mapping(c, view.color_grading);
+#else
     return c;
-// #endif
+#endif
 }
