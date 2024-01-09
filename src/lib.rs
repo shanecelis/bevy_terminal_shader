@@ -6,9 +6,7 @@ use bevy::{
     render::render_resource::{AsBindGroup, ShaderRef, SpecializedMeshPipelineError},
     render::{
         mesh::InnerMeshVertexBufferLayout,
-        render_resource::{
-            RenderPipelineDescriptor, Shader,
-        },
+        render_resource::{RenderPipelineDescriptor, Shader},
     },
     sprite::{Material2d, Material2dKey, Material2dPlugin},
     utils::Hashed,
@@ -94,10 +92,8 @@ impl TerminalMaterial {
     /// A green terminal as shown in the [original](https://www.shadertoy.com/view/DdSGzy).
     pub fn green() -> Self {
         Self {
-            foreground:
-            Color::hsl(118.882, 0.535, 0.109).as_rgba(),
-            background:
-            Color::hsl(192.671, 0.800, 0.658).as_rgba(),
+            foreground: Color::hsl(118.882, 0.535, 0.109).as_rgba(),
+            background: Color::hsl(192.671, 0.800, 0.658).as_rgba(),
         }
     }
 }
@@ -108,7 +104,8 @@ impl Default for TerminalMaterial {
         Self {
             foreground: Color::WHITE,
             background: Color::BLACK,
-        }.standardize()
+        }
+        .standardize()
     }
 }
 
