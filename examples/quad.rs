@@ -20,7 +20,8 @@ fn setup(
 
     commands.spawn(MaterialMesh2dBundle {
         mesh: meshes
-            .add(shape::Quad::new(Vec2::new(1300., 800.)).into())
+            // .add(shape::Quad::new(Vec2::new(1300., 800.)).into())
+            .add(bevy::math::primitives::Rectangle::new(1300., 800.))
             .into(),
         material: materials.add(TerminalMaterial::green()),
         ..default()

@@ -5,10 +5,16 @@
     globals::Globals,
 }
 
+#ifdef IS_2D
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
+#else
 #import bevy_pbr::{
     forward_io::VertexOutput,
-    utils::PI,
 }
+#endif
+
+
+#import bevy_render::maths::PI
 #import bevy_core_pipeline::tonemapping::tone_mapping
 
 @group(0) @binding(0) var<uniform> view: View;
@@ -19,8 +25,8 @@
 #endif
 
 // Bindings for our TerminalMaterial struct.
-@group(1) @binding(0) var<uniform> foreground: vec4<f32>;
-@group(1) @binding(1) var<uniform> background: vec4<f32>;
+@group(2) @binding(0) var<uniform> foreground: vec4<f32>;
+@group(2) @binding(1) var<uniform> background: vec4<f32>;
 
 // License: Unknown, author: Matt Taylor (https://github.com/64), found: https://64.github.io/tonemapping/
 fn aces_approx(v_: vec3<f32>) -> vec3<f32> {

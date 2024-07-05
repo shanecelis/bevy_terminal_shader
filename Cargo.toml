@@ -11,7 +11,7 @@ keywords = ["gamedev", "bevy", "shaders", "graphics"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.12.1"
+bevy = "0.14"
 
 [badges.maintenance]
 status = "actively-developed"
