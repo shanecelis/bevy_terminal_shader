@@ -63,6 +63,10 @@ cargo run --example cube
 
 This will show a rotating cube with the shader as its surfaces.
 
+# TODO
+
+- [ ] Consider renaming crate to `bevy_oscilloscope_shader`.
+
 # License
 
 This crate is licensed under the MIT License or the Apache License 2.0 or CC0 License.
