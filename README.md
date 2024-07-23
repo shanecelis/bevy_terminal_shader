@@ -4,8 +4,9 @@
   [![crates-io](https://img.shields.io/crates/v/bevy_terminal_shader.svg)](https://crates.io/crates/bevy_terminal_shader)
   [![api-docs](https://docs.rs/bevy_terminal_shader/badge.svg)](https://docs.rs/bevy_terminal_shader)
 
-This crate provides a old school terminal-like effect that can be applied to 2D
-and 3D objects on the [bevy game engine](https://bevyengine.org).
+This crate provides an old school terminal-like, or oscilloscope, effect that
+can be applied to 2D and 3D objects on the [bevy game
+engine](https://bevyengine.org).
 
 ![Terminal shader example](https://github.com/shanecelis/bevy_terminal_shader/assets/54390/05308e0a-439f-4ae8-9aa2-07144222aa3e)
 
@@ -63,9 +64,17 @@ cargo run --example cube
 
 This will show a rotating cube with the shader as its surfaces.
 
+
 # TODO
 
 - [ ] Consider renaming crate to `bevy_oscilloscope_shader`.
+
+# Compatibility
+
+| bevy_terminal_shader | bevy   |
+|----------------------|--------|
+| 0.2                  | 0.14   |
+| 0.1                  | 0.12.1 |
 
 # License
 

@@ -11,6 +11,9 @@ keywords = ["gamedev", "bevy", "shaders", "graphics"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+bevy = { version = "0.14", default-features=false, features = [ "bevy_render", "bevy_asset", "bevy_pbr", "bevy_sprite" ] }
+
+[dev-dependencies]
 bevy = "0.14"
 
 [badges.maintenance]
