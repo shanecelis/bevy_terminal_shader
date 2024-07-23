@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/bevy_terminal_shader/0.1.0")]
+#![doc(html_root_url = "https://docs.rs/bevy_terminal_shader/0.2.0")]
 #![doc = include_str!("../README.md")]
 use bevy::{
     asset::load_internal_asset,
