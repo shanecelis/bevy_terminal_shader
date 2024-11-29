@@ -1,6 +1,6 @@
 //! Shows the terminal material rendered on a quad.
 
-use bevy::{prelude::*, sprite::MaterialMesh2dBundle};
+use bevy::prelude::*;
 use bevy_terminal_shader::{TerminalMaterial, TerminalShaderPlugin};
 
 fn main() {
@@ -16,14 +16,10 @@ fn setup(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<TerminalMaterial>>,
 ) {
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d::default());
 
-    commands.spawn(MaterialMesh2dBundle {
-        mesh: meshes
-            // .add(shape::Quad::new(Vec2::new(1300., 800.)).into())
-            .add(bevy::math::primitives::Rectangle::new(1300., 800.))
-            .into(),
-        material: materials.add(TerminalMaterial::green()),
-        ..default()
-    });
+    commands.spawn((
+        Mesh2d(meshes.add(Rectangle::new(1300., 800.).mesh())),
+        MeshMaterial2d(materials.add(TerminalMaterial::green())),
+    ));
 }
